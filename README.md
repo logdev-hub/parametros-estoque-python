@@ -38,25 +38,25 @@ No gerenciamento logístico, é fundamental garantir que os produtos estejam dis
 ## 📐 Fórmulas Utilizadas
 
 **Estoque de Segurança (ES)**  
-ES = Z × σ × √LT 
-Z: nível de serviço (1.65 para 95%)
-σ: desvio padrão da demanda diária
-LT: lead time em dias 
+<br>ES = Z × σ × √LT 
+<br>Z: nível de serviço (1.65 para 95%)
+<br>σ: desvio padrão da demanda diária
+<br>LT: lead time em dias 
 
 **LEC - Lote Econômico de Compras** 
-LEC = √(2 × D × S / (H × C)) 
-D: demanda anual
-S: custo por pedido
-H: taxa de armazenagem anual
-C: custo unitário do produto 
+<br>LEC = √(2 × D × S / (H × C)) 
+<br>D: demanda anual
+<br>S: custo por pedido
+<br>H: taxa de armazenagem anual
+<br>C: custo unitário do produto 
 
 **Intervalo entre Pedidos** 
-Intervalo = LEC / Demanda Diária
+<br>Intervalo = LEC / Demanda Diária
 **Estoque Máximo (EMAX)** 
-ES + Demanda × LT 
+<br>ES + Demanda × LT 
 **Estoque Médio (condicional)** 
-Se LEC ≥ EMAX: ES + (Demanda × LT)/2
-Senão: ES + LEC/2 
+<br>Se LEC ≥ EMAX: ES + (Demanda × LT)/2
+<br>Senão: ES + LEC/2 
 
 ---
 
