@@ -1,108 +1,129 @@
+# 📦 Simulação de Parâmetros de Estoque com Python
 
-# 📦 Simulação de parâmetros de estoque com Python
+Este projeto tem como objetivo calcular e visualizar os principais **parâmetros logísticos de estoque com reposição contínua**, utilizando Python e boas práticas de análise quantitativa. A visualização é feita por meio de **cards gráficos** que tornam a interpretação mais acessível para gestores e equipes operacionais.
 
-Este projeto tem como objetivo calcular e visualizar os principais **parâmetros de estoque com reposição contínua** utilizando Python. Com base em dados reais de consumo e custo, é possível obter insights logísticos valiosos para tomada de decisão.
+---
 
-## 🧠 O que são os parâmetros de estoque?
+## 🛍️ Cenário Prático: Papel Sulfite A4
 
-No gerenciamento logístico, é fundamental garantir que os produtos estejam disponíveis na quantidade certa e no momento certo. Os principais parâmetros calculados neste projeto são:
+Imagine que você administra uma papelaria. Um dos produtos mais vendidos é o **Papel Sulfite A4**. Com base nos registros do mês, você identificou os seguintes dados:
 
-- **Estoque de Segurança (ES):** Quantidade extra mantida para evitar rupturas em caso de variações de demanda ou atrasos no fornecimento.
-- **LEC (Lote Econômico de Compra):** Tamanho ideal do pedido que minimiza os custos totais de pedido e armazenagem.
-- **Intervalo entre Pedidos:** Tempo, em dias, entre cada nova reposição.
-- **Estoque Máximo:** Quantidade máxima esperada em estoque logo após uma reposição.
-- **Estoque Médio:** Representa o nível médio de estoque ao longo do tempo. Aqui é calculado com **lógica condicional**, considerando a relação entre o LEC e o estoque máximo.
+| Parâmetro | Valor |
+|----------|-------|
+| Demanda diária | 40 pacotes |
+| Desvio padrão | 8 |
+| Lead time | 5 dias |
+| Custo por pedido | R$ 120 |
+| Armazenagem | 20% ao ano |
+| Preço unitário | R$ 30 |
 
-## 🧰 Bibliotecas Utilizadas
+A partir desses dados, o script calculará os valores ideais para manter o equilíbrio entre **nível de serviço** e **custos logísticos**, gerando os **cards visuais com os parâmetros** e explicações para leigos.
 
-- **Pandas:** Embora neste script não tenha manipulação de DataFrames, é importado para futuros aprimoramentos com tabelas e exportações de dados.
-- **NumPy:** Usado para cálculos com alta performance como operações vetoriais.
-- **Matplotlib:** Responsável pela criação de gráficos com linhas de referência, proporcionando visualização clara dos níveis de estoque.
+---
 
-## 🚀 Como Executar
+## 🧠 O que são os Parâmetros de Estoque?
 
-1. Instale os pacotes necessários:
-   ```bash
-   pip install numpy matplotlib pandas
-   ```
+Na gestão logística, manter o equilíbrio entre disponibilidade de produtos e controle de custos é essencial. Por isso, este projeto calcula automaticamente os seguintes indicadores:
 
-2. Execute o script com Python 3:
-   ```bash
-   python parametros_estoque.py
-   ```
 
-3. O script imprimirá os parâmetros calculados no terminal e salvará um gráfico `grafico_estoque.png` com a simulação da curva de estoque.
+<br>
+ES (Estoque de Segurança)
+<br> 
+Protege contra variações inesperadas de consumo e atrasos do fornecedor.
+<br>
+<br>PP (Ponto de Pedido)
+<br>Nível do estoque no qual um novo pedido deve ser feito.
+<br>EMAX (Estoque Máximo)
+<br> Capacidade máxima que o estoque atinge logo após uma reposição.
+LEC (Lote Econômico de Compra)
+<br> Quantidade ideal para reposição, equilibrando custos de pedido e armazenagem. |
+<br> IPD (Intervalo entre Pedidos) 
+<br>Quantos dias se passam entre cada nova compra. 
 
 ---
 
 ## 📐 Fórmulas Utilizadas
 
-**Estoque de Segurança (ES)**  
-<br>ES = Z × σ × √LT 
-<br>Z: nível de serviço (1.65 para 95%)
-<br>σ: desvio padrão da demanda diária
-<br>LT: lead time em dias 
+Todas as fórmulas são aplicadas conforme a teoria clássica de administração de estoques:
 
-**LEC - Lote Econômico de Compras** 
-<br>LEC = √(2 × D × S / (H × C)) 
-<br>D: demanda anual
-<br>S: custo por pedido
-<br>H: taxa de armazenagem anual
-<br>C: custo unitário do produto 
+- **Estoque de Segurança (ES)**  
+  `ES = z × σ × √LT`  
+  Onde:
+  - `z`: Nível de serviço (1.65 para 95%)
+  - `σ`: Desvio padrão da demanda diária
+  - `LT`: Lead time em dias
 
-**Intervalo entre Pedidos** 
-<br>Intervalo = LEC / Demanda Diária
-**Estoque Máximo (EMAX)** 
-<br>ES + Demanda × LT 
-**Estoque Médio (condicional)** 
-<br>Se LEC ≥ EMAX: ES + (Demanda × LT)/2
-<br>Senão: ES + LEC/2 
+- **Lote Econômico de Compra (LEC)**  
+  `LEC = √(2 × D × S / (H × C))`  
+  Onde:
+  - `D`: Demanda anual
+  - `S`: Custo por pedido
+  - `H`: Custo de armazenagem percentual anual
+  - `C`: Custo unitário do produto
 
----
+- **Intervalo entre Pedidos (IPD)**  
+  `IPD = LEC / Demanda diária`
 
-## 🧾 Explicação Técnica do Código
+- **Estoque Máximo (EMAX)**  
+  `EMAX = ES + (Demanda diária × LT)`
 
-### 1. `calcular_parametros(...)`
-Função que recebe os dados do produto (demanda, custo, lead time etc.) e calcula:
+- **Estoque Médio (EM)**  
+  Se `LEC ≥ EMAX`: `EM = ES + (Demanda × LT)/2`  
+  Senão: `EM = ES + LEC/2`  
+  Ajustado para nunca ficar abaixo do PP.
 
-- Estoque de Segurança (com nível de serviço de 95%)
-- Demanda anual estimada
-- Lote Econômico (LEC)
-- Intervalo entre pedidos
-- Estoque Máximo
-- Estoque Médio com **condicional lógica**:
-  - Se o LEC for maior que o estoque máximo, o estoque médio é baseado no lead time.
-  - Senão, é baseado no LEC.
-
-### 2. `simular_curva_estoque(...)`
-- Simula o comportamento do estoque diário ao longo do tempo.
-- Adiciona um novo lote (LEC) sempre que o estoque atinge o ponto de reposição.
-- Plota a curva e inclui linhas horizontais para os níveis de segurança, médio e máximo.
-- O eixo Y é ajustado automaticamente com margem para visualização completa.
+- **Ponto de Pedido (PP)**  
+  `PP = ES + (Demanda × LT)/2`
 
 ---
 
-## 📊 Exemplo de Saída
+## 🧰 Bibliotecas Python Utilizadas
+
+Biblioteca | Finalidade |
+|------------|------------|
+| `NumPy`    | Realiza operações matemáticas com alto desempenho. |
+| `Matplotlib` | Cria os gráficos em formato de cards (visual amigável). |
+| `Pandas`   | Preparado para futuras extensões com tabelas e bases de dados. |
+| `IPython.display` | Exibe explicações amigáveis em Markdown diretamente no Jupyter/Colab. |
+
+---
+
+
+
+## 🖥️ Como Executar
+
+Instale as bibliotecas necessárias:
+
+```bash
+pip install numpy matplotlib pandas
+```
+
+Execute o notebook em um ambiente Jupyter ou Google Colab. Ele calculará os parâmetros, exibirá o gráfico dos cards e imprimirá explicações como estas:
 
 ```
-📋 Parâmetros Calculados:
-- Estoque de Segurança: 29.52
-- LEC (Lote Econômico): 632.46
-- Intervalo entre Pedidos (dias): 15.81
-- Estoque Máximo: 229.52
-- Estoque Médio: 345.74
+- ES: Seu estoque mínimo de segurança deve ser de 29.52 unidades para evitar rupturas.
+- PP: Quando seu estoque atingir 200.0 unidades, é hora de fazer um novo pedido.
+- EMAX: O máximo de produtos que você deve manter é 229.52 unidades.
+- EM: Seu estoque médio ao longo do tempo será de aproximadamente 200.0 unidades.
+- LEC: O lote ideal de compra é de 229.52 unidades para equilibrar custos.
+- IPD: Você fará um novo pedido a cada 5.74 dias em média.
 ```
 
 ---
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Sinta-se livre para usar, modificar e compartilhar.
-
-## 🤝 Contribuição
-
-Contribuições são bem-vindas! Abra uma issue ou envie um pull request.
+Este projeto está sob a [Licença MIT](LICENSE). Sinta-se livre para usar, modificar e compartilhar com atribuição.
 
 ---
 
-💡 Desenvolvido por Leandro Pereira – Especialista em Logística com Python aplicado à tomada de decisão.
+## 🤝 Contribuição
+
+Contribuições são bem-vindas! Se você tiver ideias de melhorias ou quiser adaptar o projeto a outros contextos logísticos, abra uma *issue* ou envie um *pull request*.
+
+---
+
+## 💡 Desenvolvido por
+
+**Leandro Pereira**  
+Especialista em Logística com aplicação prática de Python para resolução de problemas reais na cadeia de suprimentos.
