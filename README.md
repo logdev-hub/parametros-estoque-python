@@ -1,5 +1,5 @@
 
-# 📦 Simulação de Parâmetros de Estoque com Python
+# 📦 Simulação de parâmetros de estoque com Python
 
 Este projeto tem como objetivo calcular e visualizar os principais **parâmetros de estoque com reposição contínua** utilizando Python. Com base em dados reais de consumo e custo, é possível obter insights logísticos valiosos para tomada de decisão.
 
