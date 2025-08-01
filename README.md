@@ -21,24 +21,27 @@ A partir desses dados, o script calculará os valores ideais para manter o equil
 
 ---
 
-## 🧠 O que são os Parâmetros de Estoque?
+🧠 **O que são os Parâmetros de Estoque?**
 
-Na gestão logística, manter o equilíbrio entre disponibilidade de produtos e controle de custos é essencial. Por isso, este projeto calcula automaticamente os seguintes indicadores:
+Na gestão logística, manter o equilíbrio entre disponibilidade de produtos e controle de custos é essencial.  
+Por isso, este projeto calcula automaticamente os seguintes indicadores:
 
+---
 
-<br>
-ES (Estoque de Segurança)
-<br> 
+**ES (Estoque de Segurança)**  
 Protege contra variações inesperadas de consumo e atrasos do fornecedor.
-<br>
-<br>PP (Ponto de Pedido)
-<br>Nível do estoque no qual um novo pedido deve ser feito.
-<br>EMAX (Estoque Máximo)
-<br> Capacidade máxima que o estoque atinge logo após uma reposição.
-LEC (Lote Econômico de Compra)
-<br> Quantidade ideal para reposição, equilibrando custos de pedido e armazenagem. |
-<br> IPD (Intervalo entre Pedidos) 
-<br>Quantos dias se passam entre cada nova compra. 
+
+**PP (Ponto de Pedido)**  
+Nível do estoque no qual um novo pedido deve ser feito.
+
+**EMAX (Estoque Máximo)**  
+Capacidade máxima que o estoque atinge logo após uma reposição.
+
+**LEC (Lote Econômico de Compra)**  
+Quantidade ideal para reposição, equilibrando custos de pedido e armazenagem.
+
+**IPD (Intervalo entre Pedidos)**  
+Quantos dias se passam entre cada nova compra.
 
 ---
 
